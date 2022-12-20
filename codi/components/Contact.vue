@@ -35,6 +35,8 @@
                 </v-col>
             <v-col cols="12" sm="6">
                 <h1>Resultat</h1>
+                <v-btn @click="ferSorteig()">Fer sorteig</v-btn>
+                {{sorteigValid}}
             </v-col>
         </v-row>
     </div>
@@ -90,6 +92,30 @@
             }
         },
         methods:{
+            ferSorteig(){
+                console.log("comença el sorteig")
+                var shuffle = require('shuffle-array');
+               
+                let participantsOriginal = this.participants
+                shuffle(participantsOriginal);
+                let self = this
+                console.log(participantsOriginal);
+                let sorteig = self.participantsOriginal
+                console.log(sorteig);
+
+                
+                let algunIgual = false
+                sorteig.forEach((el,pos)  => {
+                  if(el.email == participantsOriginal.email){
+                    algunIgual = true
+                  }
+                })
+                if(!algunIgual){
+                    sorteigNoValid = false
+                    self.sorteigValid = sorteig
+                    }
+                }
+            },
             afegirParticipant(){
                 // push afegir el participant a l'array de participants
                 if(!this.nom || !this.email){
@@ -115,6 +141,7 @@
     border: 1px solid;
     text-align: center;
     background-color: rgb(95, 38, 194);
+    font-size: larger;
     
 }
 
