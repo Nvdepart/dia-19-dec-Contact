@@ -5,14 +5,14 @@
             <v-col cols="12" sm="6">
                 <v-text-field
                     v-model="nom"
-                    :rules="[rules.required, rules.counter]"
+                    
                     label="Nom Participant"
                     counter
                     maxlength="20"
                 ></v-text-field>
                 <v-text-field
                     v-model="email"
-                    :rules="[rules.required, rules.email]"
+                   
                     label="E-mail"
                 ></v-text-field>
                 <v-btn @click="afegirParticipant()"
@@ -24,6 +24,14 @@
                         mdi-plus
                     </v-icon>
                 </v-btn>
+                
+                <v-data-table 
+                class="table"
+                dark
+                :headers="participant"
+                :items="participants"
+                :items-per-page=10
+                item-key="nom"></v-data-table>
                 </v-col>
             <v-col cols="12" sm="6">
                 <h1>Resultat</h1>
@@ -35,7 +43,7 @@
 
 <script>
     export default {
-        props:{
+        /*props:{
             nom:{
                 type: String,
                 default:""
@@ -44,34 +52,70 @@
                 type: String,
                 default:""
             },
-        },
+        },*/
         data () {
             return {
-                nom: 'Preliminary report',
-                email: '',
-                rules: {
-                    required: value => !!value || 'Required.',
-                    counter: value => value.length <= 20 || 'Max 20 characters',
-                    email: value => {
-                        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                        return pattern.test(value) || 'Invalid e-mail.'
-                    },
+                participant:[{
+                    text: 'Nom participant',
+                    align:'start',
+                    value:'nom'
                 },
+                {
+                    text:'Email', value:'email'
+                }
+            ],
+                participants:[
+                        {
+                        nom:"Dani",
+                        email:"dani@gmail.com"
+                        },
+                        {
+                        nom:"Paula",
+                        email:"paula@gmail.com"
+                        }
+                    ],
+                    /*rules: {
+                        required: value => !!value || 'Required.',
+                        counter: value => value.length <= 20 || 'Max 20 characters',
+                        email: value => {
+                            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                            return pattern.test(value) || 'Invalid e-mail.'
+                        },
+                    },*/
+
+
+                nom:"",
+                email:""
+                
             }
         },
         methods:{
             afegirParticipant(){
                 // push afegir el participant a l'array de participants
-
+                if(!this.nom || !this.email){
+                    return
+                }
                 this.participants.push(
                     {
                         nom:this.nom,
                         email:this.email
                     }
                 )
+                this.nom=""
+                this.email=""
             }
         }
 
     }
 
 </script>
+
+<style>
+.table{
+    border: 1px solid;
+    text-align: center;
+    background-color: rgb(95, 38, 194);
+    
+}
+
+</style>
